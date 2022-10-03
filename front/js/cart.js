@@ -1,7 +1,8 @@
 const numberOfItems = localStorage.length;
 const cart = [];
 
-//--------------------test--------------------------
+// Récupération des produits à partir de l'API et du localStorage-----------------------------
+
 buildCart = async () => {
   for (let i = 0; i < numberOfItems; i++) {
     const sofa = localStorage.getItem(localStorage.key(i));
@@ -13,18 +14,17 @@ buildCart = async () => {
       .then((res) => res.json())
       .then((data) => {
         sofaObjectFromLocalStorage.sPrice = data.price;
+        sofaObjectFromLocalStorage.imgUrl = data.imageUrl;
+        sofaObjectFromLocalStorage.altText = data.altTxt;
+        sofaObjectFromLocalStorage.Sname = data.name;
         cart.push(sofaObjectFromLocalStorage);
-        console.log(cart)
-        console.log(JSON.stringify(cart));
       });
   }
 };
 
 buildCart().then(() => cart.forEach((sofa) => displayItem(sofa)));
-//-------------------------------------------------------------
 
 //Afficher item
-// cart.forEach((sofa) => displayItem(sofa));
 
 function displayItem(sofa) {
   //créer article
