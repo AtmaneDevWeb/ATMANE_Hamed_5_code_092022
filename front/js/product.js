@@ -46,7 +46,7 @@ function handleData(sofa) {
     const sPrice = document.querySelector("#price").textContent;
     const Sname = document.querySelector("#title").textContent;
 
-    if (color == null || color == "" || quantity == null || quantity == 0) {
+    if (color == null || color == "" || quantity == null || quantity <= 0) {
       alert("Veuillez sélectionner une couleur ainsi qu'une quantité !");
     } else {
       let parsedSofa = JSON.parse(localStorage.getItem(id + color));
