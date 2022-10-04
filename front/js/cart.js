@@ -57,11 +57,11 @@ function displayItem(sofa) {
   divCartItemDesription.appendChild(h2);
 
   const p1 = document.createElement("p");
-  p1.textContent = `couleur : ${sofa.color}`;
+  p1.textContent = `${sofa.color}`;
   divCartItemDesription.appendChild(p1);
 
   const p2 = document.createElement("p");
-  p2.textContent = `Prix : ${sofa.sPrice}`;
+  p2.textContent = `${sofa.sPrice} €`;
   divCartItemDesription.appendChild(p2);
 
   const divContentSettings = document.createElement("div");
@@ -85,7 +85,7 @@ function displayItem(sofa) {
   input.min = "1";
   input.max = "100";
   input.value = sofa.quantity;
-  divContentSettings.appendChild(input);
+  divContentSettingsQuantity.appendChild(input);
 
   const divContentSettingsDelete = document.createElement("div");
   divContentSettingsDelete.classList.add(
