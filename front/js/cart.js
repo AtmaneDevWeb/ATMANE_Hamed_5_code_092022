@@ -96,7 +96,11 @@ function displayItem(sofa) {
   p4.textContent = "Suprimer";
   divContentSettingsDelete.appendChild(p4);
   divContentSettings.appendChild(divContentSettingsDelete);
-  divContentSettingsDelete.addEventListener("click", () => {});
+  divContentSettingsDelete.addEventListener("click", () => {
+    const sofaToDelete = cart.findIndex((prod) => prod.id === sofa.id && prod.color === sofa.color)
+				cart.splice(sofaToDelete, 1)
+				console.log(cart)
+  });
 
   document.querySelector("#cart__items").appendChild(article);
   divCartItemContent.appendChild(divContentSettings);
@@ -118,5 +122,5 @@ function displayItem(sofa) {
     totalQuantity.textContent = totalQ;
   });
 
-  //Suprimer
+ 
 }
