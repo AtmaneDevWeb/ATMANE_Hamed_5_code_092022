@@ -1,14 +1,16 @@
-// Récupération du panier
-let cart = [];
-let cartLocalStorage = localStorage.getItem("cart");
-if (cartLocalStorage !== null) {
-  cart = JSON.parse(cartLocalStorage);
-}
-
 function afficherArticles() {
+
+  // Récupération du panier
+  let cart = [];
+  let cartLocalStorage = localStorage.getItem("cart");
+  if (cartLocalStorage !== null) {
+    cart = JSON.parse(cartLocalStorage);
+  }
   //remise à zéro du prix total avant d'afficher les articles
   let totalAmount = 0;
   let totalQuty = 0;
+  document.querySelector("#totalPrice").textContent = 0;
+  document.querySelector("#totalQuantity").textContent = 0;
 
   for (let i = 0; i < cart.length; i++) {
     const sofa = cart[i];
@@ -90,6 +92,8 @@ function afficherArticles() {
         // Supression des articles au click.
 
         divContentSettingsDelete.addEventListener("click", () => {
+          //récupération du panier
+          let cart = [];
           let cartLocalStorage = localStorage.getItem("cart");
           if (cartLocalStorage !== null) {
             cart = JSON.parse(cartLocalStorage);
@@ -100,10 +104,6 @@ function afficherArticles() {
           let cartItems = document.querySelector("#cart__items");
           cartItems.textContent = "";
           afficherArticles();
-          console.log(cart)
-
-
-
         });
 
 
@@ -116,7 +116,7 @@ function afficherArticles() {
         totalPrice.textContent = totalAmount;
 
         //total quantity:
-        
+
         const totalQuantity = document.querySelector("#totalQuantity");
         totalQuty += sofa.quantity;
         totalQuantity.textContent = Number(totalQuty);
