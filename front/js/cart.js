@@ -126,6 +126,46 @@ function afficherArticles() {
       });
   }
 
+  //-----------------------------submitForm-----------------------------------------------------
+  const btnOrder = document.querySelector("#order");
+
+  //Envoi du formulaire au click
+  btnOrder.addEventListener('click', submitForm)
+  function submitForm(e) {
+    e.preventDefault();
+
+    //Vérifie que le panier n'est pas vide
+    if (cart.length === 0) alert("Veuillez sélectionner un canapé à acheter..")
+    
+    //Envoi de la requette au serveur
+    function bodyRequest() {
+      const form = document.querySelector(".cart__order__form")
+      const body = {
+        contact: {
+          firstName: form.elements.firstName.value,
+          lastName: form.elements.lastName.value,
+          address: form.elements.address.value,
+          city: form.elements.city.value,
+          email: form.elements.email.value
+        },
+        products: ["055743915a544fde83cfdfc904935ee7"]
+      }
+      return body;
+  
+    }
+    const bodyR = bodyRequest();
+    fetch("http://localhost:3000/api/products/order", {
+      method: "POST",
+      body: JSON.stringify(bodyR),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+  }
 }
 
 afficherArticles();
+
+
