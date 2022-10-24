@@ -139,6 +139,10 @@ function afficherArticles() {
     
     //Envoi de la requette au serveur
     function bodyRequest() {
+      let productsIds = [];
+			for (let i = 0; i < cart.length; i++) {
+				productsIds.push(cart[i].id);
+			}
       const form = document.querySelector(".cart__order__form")
       const body = {
         contact: {
@@ -148,11 +152,13 @@ function afficherArticles() {
           city: form.elements.city.value,
           email: form.elements.email.value
         },
-        products: ["055743915a544fde83cfdfc904935ee7"]
+        products: productsIds
       }
       return body;
   
     }
+
+    
     const bodyR = bodyRequest();
     fetch("http://localhost:3000/api/products/order", {
       method: "POST",
@@ -162,7 +168,12 @@ function afficherArticles() {
       }
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+      	console.log(data);
+      	console.log(data.orderId);
+        window.location.href = `confirmation.html?orderId=${data.orderId}`;
+      })
+      
   }
 }
 
