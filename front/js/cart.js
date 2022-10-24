@@ -134,16 +134,14 @@ function afficherArticles() {
   function submitForm(e) {
     e.preventDefault();
 
-    //Vérifie que le panier n'est pas vide
-    if (cart.length === 0) alert("Veuillez sélectionner un canapé à acheter..")
-    
+
     //Envoi de la requette au serveur
     function bodyRequest() {
       let productsIds = [];
-			for (let i = 0; i < cart.length; i++) {
-				productsIds.push(cart[i].id);
-			}
-      const form = document.querySelector(".cart__order__form")
+      for (let i = 0; i < cart.length; i++) {
+        productsIds.push(cart[i].id);
+      }
+      const form = document.querySelector(".cart__order__form");
       const body = {
         contact: {
           firstName: form.elements.firstName.value,
@@ -155,10 +153,29 @@ function afficherArticles() {
         products: productsIds
       }
       return body;
-  
+
+    }
+    function formValidation() {
+
+      //Vérifie que le panier n'est pas vide
+      if (cart.length === 0) alert("Veuillez sélectionner un canapé à acheter..") 
+
+      const form = document.querySelector(".cart__order__form");
+      const entries = Array.from(form.querySelectorAll("input"));
+
+      console.log(entries)
+      const empty = entries.find((input) => input.value === "");
+
+      if (empty) {
+        alert("Veuillez renseigner tous les champs SVP..")
+        return true
+      } else {
+        false
+      }
     }
 
-    
+    if (formValidation()) return
+
     const bodyR = bodyRequest();
     fetch("http://localhost:3000/api/products/order", {
       method: "POST",
@@ -169,11 +186,11 @@ function afficherArticles() {
     })
       .then((res) => res.json())
       .then((data) => {
-      	console.log(data);
-      	console.log(data.orderId);
+        console.log(data);
+        console.log(data.orderId);
         window.location.href = `confirmation.html?orderId=${data.orderId}`;
       })
-      
+
   }
 }
 

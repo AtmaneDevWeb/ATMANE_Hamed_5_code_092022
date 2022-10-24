@@ -9,4 +9,4 @@ const orderIdSpan = document.querySelector("#orderId");
 orderIdSpan.textContent = orderId;
 
 // Suppression des produits du panier
-localStorage.setItem('cart', []);
+localStorage.setItem('cart', '[]');
