@@ -133,7 +133,7 @@ function afficherArticles() {
   btnOrder.addEventListener('click', submitForm)
   function submitForm(e) {
     e.preventDefault();
-
+    if (cart.length === 0) alert("Veuillez sélectionner un canapé à acheter..")
 
     //Envoi de la requette au serveur
     function bodyRequest() {
@@ -155,10 +155,15 @@ function afficherArticles() {
       return body;
 
     }
-    function formValidation() {
+    function invalidForm() {
 
       //Vérifie que le panier n'est pas vide
-      if (cart.length === 0) alert("Veuillez sélectionner un canapé à acheter..") 
+      if (cart.length === 0) {
+        alert("Veuillez sélectionner un canapé à acheter..");
+        return true;
+      } else {
+        false
+      }
 
       const form = document.querySelector(".cart__order__form");
       const entries = Array.from(form.querySelectorAll("input"));
@@ -174,7 +179,7 @@ function afficherArticles() {
       }
     }
 
-    if (formValidation()) return
+    if (invalidForm()) return
 
     const bodyR = bodyRequest();
     fetch("http://localhost:3000/api/products/order", {
