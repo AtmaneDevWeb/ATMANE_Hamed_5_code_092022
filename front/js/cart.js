@@ -135,53 +135,24 @@ function afficherArticles() {
     e.preventDefault();
     if (cart.length === 0) alert("Veuillez sélectionner un canapé à acheter..")
 
-    //Envoi de la requette au serveur
-    function bodyRequest() {
-      let productsIds = [];
-      for (let i = 0; i < cart.length; i++) {
-        productsIds.push(cart[i].id);
-      }
-      const form = document.querySelector(".cart__order__form");
-      const body = {
-        contact: {
-          firstName: form.elements.firstName.value,
-          lastName: form.elements.lastName.value,
-          address: form.elements.address.value,
-          city: form.elements.city.value,
-          email: form.elements.email.value
-        },
-        products: productsIds
-      }
-      return body;
+    if (invalidForm()) return false;
 
-    }
-    function invalidForm() {
+	  let productsIds = [];
+	  for (let i = 0; i < cart.length; i++) {
+	    productsIds.push(cart[i].id);
+	  }
+	  const form = document.querySelector(".cart__order__form");
+	  const bodyR = {
+	    contact: {
+	      firstName: form.elements.firstName.value,
+	      lastName: form.elements.lastName.value,
+	      address: form.elements.address.value,
+	      city: form.elements.city.value,
+	      email: form.elements.email.value
+	    },
+	    products: productsIds
+	  }
 
-      //Vérifie que le panier n'est pas vide
-      if (cart.length === 0) {
-        alert("Veuillez sélectionner un canapé à acheter..");
-        return true;
-      } else {
-        false
-      }
-
-      const form = document.querySelector(".cart__order__form");
-      const entries = Array.from(form.querySelectorAll("input"));
-
-      console.log(entries)
-      const empty = entries.find((input) => input.value === "");
-
-      if (empty) {
-        alert("Veuillez renseigner tous les champs SVP..")
-        return true
-      } else {
-        false
-      }
-    }
-
-    if (invalidForm()) return
-
-    const bodyR = bodyRequest();
     fetch("http://localhost:3000/api/products/order", {
       method: "POST",
       body: JSON.stringify(bodyR),
@@ -197,8 +168,83 @@ function afficherArticles() {
       })
 
   }
+
+
+  function invalidForm() {
+
+  	const form = document.querySelector(".cart__order__form");
+  	let errorDetected = false;
+
+    // Vérifie que le panier n'est pas vide
+    if (cart.length === 0) {
+      alert("Veuillez sélectionner un canapé à acheter..");
+      errorDetected = true;
+    }
+
+    // FirstName
+    const firstNameInput = document.getElementById('firstName');
+    const firstNameError = document.getElementById('firstNameErrorMsg');
+    const firstNameRegex = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+    if (firstNameRegex.test(firstNameInput.value)) {
+    	firstNameError.textContent = "";
+    }
+    else {
+    	firstNameError.textContent = "Ce champ est incorrect";
+    	errorDetected = true;
+    }
+
+    // LastName
+    const lastNameInput = document.getElementById('lastName');
+    const lastNameError = document.getElementById('lastNameErrorMsg');
+    const lastNameRegex = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+    if (lastNameRegex.test(lastNameInput.value)) {
+    	lastNameError.textContent = "";
+    }
+    else {
+    	lastNameError.textContent = "Ce champ est incorrect";
+    	errorDetected = true;
+    }
+
+    // Address
+    const addressInput = document.getElementById('address');
+    const addressError = document.getElementById('addressErrorMsg');
+    const addressRegex = new RegExp("^[0-9A-ZÀ-ÿ-a-z,.' -]+$");
+    if (addressRegex.test(addressInput.value)) {
+    	addressError.textContent = "";
+    }
+    else {
+    	addressError.textContent = "Ce champ est incorrect";
+    	errorDetected = true;
+    }
+
+    // City
+    const cityInput = document.getElementById('city');
+    const cityError = document.getElementById('cityErrorMsg');
+    const cityRegex = new RegExp("^[A-ZÀ-ÿ-a-z,.' -]+$");
+    if (cityRegex.test(cityInput.value)) {
+    	cityError.textContent = "";
+    }
+    else {
+    	cityError.textContent = "Ce champ est incorrect";
+    	errorDetected = true;
+    }
+
+    // Email
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('emailErrorMsg');
+    const emailRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+$");
+    if (emailRegex.test(emailInput.value)) {
+    	emailError.textContent = "";
+    }
+    else {
+    	emailError.textContent = "Ce champ est incorrect";
+    	errorDetected = true;
+    }
+
+    if(errorDetected === true) return true;
+    return false;
+  }
 }
 
 afficherArticles();
-
 
