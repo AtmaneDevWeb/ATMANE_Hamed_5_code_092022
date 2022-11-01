@@ -1,12 +1,10 @@
 function afficherArticles() {
-
-  // Récupération du panier
-  let cart = [];
-  let cartLocalStorage = localStorage.getItem("cart");
-  if (cartLocalStorage !== null) {
-    cart = JSON.parse(cartLocalStorage);
-  }
-  //remise à zéro du prix total avant d'afficher les articles
+// Récupération du panier
+ cart=getCart()
+  if (cart.length == 0) {
+      document.getElementsByClassName('cart')[0].textContent = " Votre panier est vide"
+  }else{  
+    //remise à zéro du prix total avant d'afficher les articles
   let totalAmount = 0;
   let totalQuty = 0;
   document.querySelector("#totalPrice").textContent = 0;
@@ -93,14 +91,11 @@ function afficherArticles() {
 
         divContentSettingsDelete.addEventListener("click", () => {
           //récupération du panier
-          let cart = [];
-          let cartLocalStorage = localStorage.getItem("cart");
-          if (cartLocalStorage !== null) {
-            cart = JSON.parse(cartLocalStorage);
-          }
+          cart = getCart();
           const sofaToDelete = cart.findIndex((product) => product.id === sofa.id && product.color === sofa.color)
           cart.splice(sofaToDelete, 1)
-          localStorage.setItem('cart', JSON.stringify(cart));
+          // localStorage.setItem('cart', JSON.stringify(cart));
+          saveCart(cart);
           let cartItems = document.querySelector("#cart__items");
           cartItems.textContent = "";
           afficherArticles();
@@ -244,7 +239,7 @@ function afficherArticles() {
     if(errorDetected === true) return true;
     return false;
   }
+  }
 }
-
 afficherArticles();
 

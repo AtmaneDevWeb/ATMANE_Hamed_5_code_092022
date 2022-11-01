@@ -6,6 +6,10 @@ fetch("http://localhost:3000/api/products")
 
 //Création des articles
 function addProducts(sofaList) {
+  // Pas de produits disponibles à la vente
+  if (sofaList == undefined || sofaList.length == 0) {
+    document.getElementById('items').textContent = "Aucun produit disponible à la vente";
+  }
   for (let i = 0; i < sofaList.length; i++) {
     //Création de la balise <a> + récupération des id produits
     let a = document.createElement("a");

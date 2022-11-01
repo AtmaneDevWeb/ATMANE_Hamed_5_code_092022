@@ -1,15 +1,25 @@
-// Récupération de l'id du produit contenu dans l'url
-let queryString = window.location.search;
-let urlParams = new URLSearchParams(queryString);
-let id = urlParams.get("id");
+id = getUrlParam("id");
+console.log(id);
 let imgUrl, altText;
 let Sname;
-
+// Product id manquant
+if (id == null || id == "") {
+  document.getElementsByClassName('item')[0].textContent = "Product id manquant";
+} else {
 // Création de la requête qui récupère les "id" des produits sur l'api
 fetch(`http://localhost:3000/api/products/${id}`)
-  .then((res) => res.json())
+  .then((res) => {
+    if (res.ok) {
+    return res.json();
+    // Id incorrect
+  } else {
+    document.getElementsByClassName('item')[0].textContent = "Id incorrect"
+  }
+  } )
   .then((data) => {
     let product = data;
+    console.log(product)
+   
     // Affichage de l'image du produit
     let imgItem = document.createElement("img");
     document.querySelector(".item__img").appendChild(imgItem);
@@ -38,9 +48,13 @@ fetch(`http://localhost:3000/api/products/${id}`)
       // Ajouter un article dans le panier
       const color = document.querySelector("#colors").value;
       const quantity = document.querySelector("#quantity").value;
-      if (color == null || color == "" || quantity == null || quantity == 0) {
+      //Contrôle quantité et couleur sélectionnées
+      if (color == null || color == "" || quantity == null ) {
         alert("Veuillez sélectionner une couleur ainsi qu'une quantité !");
-      } else {
+      } else if (quantity > 100 || quantity <= 0) {
+        alert("Veuillez choisir une quantité entre 1 et 100 articles")
+      }
+      else {
 
         // Création de l'objet qui sera stocké dans le localStorage qui va nous permettre de gérer le panier
         let data = {
@@ -50,11 +64,8 @@ fetch(`http://localhost:3000/api/products/${id}`)
         };
 
         // Récupération du panier
-        let cart = [];
-        let cartLocalStorage = localStorage.getItem('cart');
-        if (cartLocalStorage !== null) {
-          cart = JSON.parse(cartLocalStorage);
-        }
+        
+        cart = getCart();
 
         // Ajout du produit dans le panier
         let index = cart.findIndex(item => (item.id == data.id && item.color == data.color));
@@ -77,4 +88,4 @@ fetch(`http://localhost:3000/api/products/${id}`)
   })
   .catch((error) => {
     console.log(error);
-  });
+  });}
