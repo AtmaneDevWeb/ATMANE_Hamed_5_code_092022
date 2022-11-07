@@ -14,27 +14,22 @@ function addProducts(sofaList) {
     //Création de la balise <a> + récupération des id produits
     let a = document.createElement("a");
     a.href = `product.html?id=${sofaList[i]._id}`;
-
     //Récupération de l'item + injection de la balise <a>
     let items = document.querySelector("#items");
     items.appendChild(a);
-
     //Création et injection de la balise <a> dans <aticle>
     let article = document.createElement("article");
     a.appendChild(article);
-
     //Création et injection de l'image
     let kanapImg = document.createElement("img");
     kanapImg.src = sofaList[i].imageUrl;
     kanapImg.alt = sofaList[i].altTxt;
     article.appendChild(kanapImg);
-
     //Création et injection du h3
     let kanapName = document.createElement("h3");
     kanapName.classList.add("productName");
     kanapName.textContent = sofaList[i].name;
     article.appendChild(kanapName);
-
     //Création et injection du paragraphe p
     let kanapDescription = document.createElement("p");
     kanapDescription.classList.add("productDescription");
